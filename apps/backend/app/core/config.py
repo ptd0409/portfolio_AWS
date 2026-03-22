@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     DATABASE_URL_ASYNC: str
     DATABASE_URL_SYNC: str
     ADMIN_API_KEY: str = Field(default="change-me")
-    JWT_SECRET_KEY: str = "ccab9952550af26a081446f35b5f479a3047e169e6c473603c00df5f42142384"
+    JWT_SECRET_KEY: str
     JWT_EXPIRE_MINUTES: int = 60
     JWT_REFRESH_EXPIRE_DAYS: int = 7
     RESET_TOKEN_EXPIRE_MINUTES: int = 30
