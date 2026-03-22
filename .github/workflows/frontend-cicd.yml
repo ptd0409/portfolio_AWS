@@ -1,27 +1,27 @@
-name: Backend CI/CD
+name: Frontend CI/CD
 
 on:
   push:
     branches:
       - dev
     paths:
-      - "../apps/backend/**"
-      - ".github/workflows/backend-cicd.yml"
+      - "apps/frontend/**"
+      - ".github/workflows/frontend-cicd.yml"
   workflow_dispatch:
 
 permissions:
   id-token: write
   contents: read
 
-environment:
+env:
   AWS_REGION: ${{ vars.AWS_REGION }}
   EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }}
-  ECR_REPOSITORY: ${{ vars.ECR_BACKEND_REPOSITORY }}
+  ECR_FRONTEND_REPOSITORY: ${{ vars.ECR_FRONTEND_REPOSITORY }}
   K8S_NAMESPACE: "portfolio"
 
 jobs:
   deploy:
-    name: Build and Deploy Backend
+    name: Build and Deploy Frontend
     runs-on: ubuntu-latest
 
     if: |
@@ -56,10 +56,10 @@ jobs:
           echo "image_tag=${SHORT_SHA}" >> $GITHUB_OUTPUT
           echo "full_image=${IMAGE_URI}:${SHORT_SHA}" >> $GITHUB_OUTPUT
 
-      - name: Build and push backend image
+      - name: Build and push frontend image
         uses: docker/build-push-action@v7
         with:
-          context: ../apps/backend
+          context: ../apps/frontend
           push: true
           tags: |
             ${{ steps.meta.outputs.full_image }}
@@ -69,11 +69,11 @@ jobs:
 
       # - name: Update kubeconfig
       #   run: |
-      #     aws eks update-config \
-      #       --region "{AWS_REGION}" \
+      #     aws eks update-kubeconfig \
+      #       --region "${AWS_REGION}" \
       #       --name "${EKS_CLUSTER_NAME}"
 
-      # - name: Deploy backend to EKS
+      # - name: Deploy frontend to EKS
       #   run: |
       #     kubectl -n "${K8S_NAMESPACE}" rollout restart deployment
       #     kubectl -n "${K8S_NAMESPACE}" rollout status deployment
