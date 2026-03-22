@@ -3,7 +3,7 @@ name: Backend CI/CD
 on:
   push:
     branches:
-      - develop
+      - dev
     paths:
       - "../apps/backend/**"
       - ".github/workflows/backend-cicd.yml"
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
-      (github.event_name == 'push' && github.ref_name == 'develop') ||
+      (github.event_name == 'push' && github.ref_name == 'dev') ||
       (github.event_name == 'workflow_dispatch' && github.ref_name == 'main')
 
     environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
