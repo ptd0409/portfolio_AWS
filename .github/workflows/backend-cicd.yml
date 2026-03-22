@@ -59,7 +59,7 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v7
         with:
-          context: ../apps/backend
+          context: ../../apps/backend
           push: true
           tags: |
             ${{ steps.meta.outputs.full_image }}
